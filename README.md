@@ -1,0 +1,2 @@
+# Analysis-and-Classification-of-Drug-Users-in-Reddit
+Online Social Media like Twitter, Reddit have become a great source of healthcare-related information.In this work our primary objective focuses on analyzing addiction/drug related subreddits to check whether they give sufficient information to comment on the state of addiction of the individual user. Based on this we will perform a user level classification. Broadly there will be 4 different classes ; addicted user, prone to addiction user, recovering user, recovered user.
