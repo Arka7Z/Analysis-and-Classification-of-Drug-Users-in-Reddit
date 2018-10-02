@@ -80,33 +80,36 @@ def prepro_stack(body,stemming=False):
 
 
 
-def getData(stemming=False):
+def getData(filename='first_evaluation_dataset.csv',stemming=False):
     data_rows = dict()
     data_rows['body']=[]
     data_rows['y'] = []
-    with open('./../data/first_evaluation_dataset.csv','r') as csv_fp:
+    with open('./../data/'+filename,'r') as csv_fp:
         csvreader = csv.reader(csv_fp, skipinitialspace=True)
         next(csvreader)
         for row in csvreader:
             tmp=prepro_stack(row[0],stemming)
             data_rows['body'].append(tmp)
-            data_rows['y'].append(row[1])
+            if(filename=='first_evaluation_dataset.csv'):
+                data_rows['y'].append(row[1])
     csv_fp.close()
     with open('./../data/first_evaluation_dataset.pkl','wb') as out_fp:
         pkl.dump(data_rows,out_fp)
     out_fp.close()
     X_tmp=data_rows['body']
-    Y_tmp=data_rows['y']
+    if(filename=='first_evaluation_dataset.csv'):
+     Y_tmp=data_rows['y']
     X=list()
     Y=list()
-    for i in range(len(X_tmp)):
-        if(Y_tmp[i]=="Addicted" or Y_tmp[i]=="Addiction-prone" or Y_tmp[i]=="Recovered" or Y_tmp[i]=="Recovering" or Y_tmp[i]=="NA" ):
-            X.append(X_tmp[i])
-            Y.append(Y_tmp[i])
-        elif(Y_tmp[i]=="Telling about others addiction"):
-            X.append(X_tmp[i])
-            Y.append("NA")
-    data_rows['body']=X
-    data_rows['y']=Y
+    if(filename=='first_evaluation_dataset.csv'):
+        for i in range(len(X_tmp)):
+            if(Y_tmp[i]=="Addicted" or Y_tmp[i]=="Addiction-prone" or Y_tmp[i]=="Recovered" or Y_tmp[i]=="Recovering" or Y_tmp[i]=="NA" ):
+                X.append(X_tmp[i])
+                Y.append(Y_tmp[i])
+            elif(Y_tmp[i]=="Telling about others addiction"):
+                X.append(X_tmp[i])
+                Y.append("NA")
+        data_rows['body']=X
+        data_rows['y']=Y
     data_rows['tokens'] = [tokenize(s) for s in X]
     return data_rows,X,Y
